@@ -1,6 +1,5 @@
 package com.example.newsmonkey;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>
     private ArrayList<News> localDataSet = new ArrayList<>();
     OnNewsClick listener;
 
-
     CustomAdapter(OnNewsClick listener)
     {
         this.listener = listener;
@@ -31,7 +29,7 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>
         // try removing the attachToRoot parameter
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
-        Log.d("Check", "inside oncreateview");
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,56 +42,41 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         News currentItem = localDataSet.get(position);
-        Log.d("Check", "inside onBindView");
         holder.textView.setText(currentItem.title);
         Glide.with(holder.itemView.getContext()).load(currentItem.urlToImage).into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        if(localDataSet!=null){
-            return localDataSet.size();
-        }
-
+        if(localDataSet!=null) return localDataSet.size();
         else return 0;
     }
 
+    // Used for if new data is fetched from api
     void updateNews(ArrayList<News> news)
     {
-        Log.d("Chcek" , "Inside update news");
+        // Cleared the data
         localDataSet.clear();
+        // Added all the update news
         localDataSet.addAll(news);
-
+        // Notified the Activity that data has been changed ( Search on google for more insight)
         notifyDataSetChanged();
-
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder  {
 
         TextView textView;
         ImageView imageView;
-        OnNewsClick onNewsClick;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.textView);
             imageView = itemView.findViewById(R.id.imageView);
-           // itemView.setOnClickListener(this);
-           // this.onNewsClick = onNewsClick;
         }
-
-        // don't know if it is required
-//        TextView getText()
-//        {
-//            return textView;
-//        }
-
-
-
     }
 
+    // Interface for News Click
     interface OnNewsClick{
         void OnClick(News news);
     }

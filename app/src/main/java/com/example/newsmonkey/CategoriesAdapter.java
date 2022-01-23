@@ -37,9 +37,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.textView.setText(localDataset[position]);
-
     }
 
     @Override
@@ -57,6 +55,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         }
     }
 
+    // Interface for Category Click
     interface OnClickCategory
     {
         void clickedCategory(String category);
